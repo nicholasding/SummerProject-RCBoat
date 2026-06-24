@@ -24,19 +24,9 @@ A simple browser-based slide deck for a summer STEM project about building an RC
 
 ## Getting Started
 
-Open `index.html` in a web browser to view the deck menu.
+Open `index.html` directly in a web browser to view the deck menu.
 
-You can also run a local static server from the project directory:
-
-```sh
-python3 -m http.server 8000
-```
-
-Then visit:
-
-```text
-http://localhost:8000
-```
+No build step, package install, or local server is required.
 
 ## Controls
 
@@ -54,4 +44,3 @@ node tests/check-three-decks.js
 ```
 
 The check confirms that the three main decks and required RC boat lesson content are present.
-
