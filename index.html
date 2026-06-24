@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>STEM Summer Project: Build an RC Boat</title>
+    <link rel="stylesheet" href="styles.css">
+  </head>
+  <body>
+    <main id="deck" aria-live="polite"></main>
+
+    <nav class="deck-controls" aria-label="Slide controls">
+      <button id="prevBtn" class="icon-button" type="button" aria-label="Previous slide" title="Previous slide">
+        <span aria-hidden="true">‹</span>
+      </button>
+      <button id="overviewBtn" class="text-button" type="button" aria-label="Show slide overview" title="Show slide overview">
+        Overview
+      </button>
+      <button id="printBtn" class="text-button" type="button" aria-label="Print or save as PDF" title="Print or save as PDF">
+        Print
+      </button>
+      <button id="homeBtn" class="text-button" type="button" aria-label="Back to decks" title="Back to decks">
+        Back to decks
+      </button>
+      <div id="slideCount" class="slide-count" aria-label="Slide count"></div>
+      <button id="nextBtn" class="icon-button" type="button" aria-label="Next slide" title="Next slide">
+        <span aria-hidden="true">›</span>
+      </button>
+    </nav>
+
+    <div class="progress-shell" aria-hidden="true">
+      <div id="progressBar" class="progress-bar"></div>
+    </div>
+
+    <aside id="overview" class="overview" aria-hidden="true">
+      <div class="overview-header">
+        <h2>Slide Overview</h2>
+        <button id="closeOverviewBtn" class="icon-button" type="button" aria-label="Close overview" title="Close overview">
+          <span aria-hidden="true">×</span>
+        </button>
+      </div>
+      <div id="overviewGrid" class="overview-grid"></div>
+    </aside>
+
+    <script src="app.js?v=20260623-physics-images"></script>
+  </body>
+</html>
