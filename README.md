@@ -13,6 +13,12 @@ A simple browser-based slide deck for a summer STEM project about building an RC
 ├── index.html
 ├── styles.css
 ├── app.js
+├── firmware/
+│   ├── README.md
+│   ├── remote_controller/
+│   │   └── remote_controller.ino
+│   └── boat_controller/
+│       └── boat_controller.ino
 ├── assets/
 │   ├── esp32-c3-rc-boat-circuit.png
 │   └── physics/
@@ -27,6 +33,12 @@ A simple browser-based slide deck for a summer STEM project about building an RC
 Open `index.html` directly in a web browser to view the deck menu.
 
 No build step, package install, or local server is required.
+
+## Firmware
+
+Arduino sketches for the ESP32-C3 remote controller and boat controller live in
+`firmware/`. Start with `firmware/README.md`, then upload the remote and boat
+sketches from the Arduino IDE.
 
 ## Controls
 
