@@ -3,7 +3,9 @@
 This directory contains Arduino IDE sketches for the RC boat project:
 
 - `remote_controller/remote_controller.ino`: remote controller firmware. The ESP32-C3 Super Mini reads the KY-023 joystick and sends `throttle` and `steering` over ESP-NOW.
-- `boat_controller/boat_controller.ino`: boat controller firmware. The boat-side ESP32-C3 receives ESP-NOW packets, mixes differential steering, and drives two 130 motors through a TB6612FNG motor driver.
+- `boat_controller/boat_controller.ino`: boat receiver test firmware. The boat-side ESP32-C3 receives ESP-NOW packets and prints the incoming `throttle`, `steering`, `button`, and sequence values without driving any motor pins.
+
+Current status: the remote-to-boat ESP-NOW receive test has been verified. The boat sketch is intentionally still receive-only so the radio link can be tested before any motor driver wiring is enabled.
 
 ## Wiring Notes
 
@@ -32,7 +34,7 @@ static constexpr uint8_t JOY_SW_PIN = 3;
 3. Open and upload `remote_controller/remote_controller.ino` to the remote controller ESP32-C3.
 4. Open Serial Monitor at `115200` baud. Keep the joystick centered during startup so the sketch can calibrate the neutral position.
 5. Open and upload `boat_controller/boat_controller.ino` to the boat-side ESP32-C3.
-6. The boat serial monitor should print received `throttle/steering` values. The remote serial monitor should print queued ESP-NOW packets and TX counters.
+6. The boat serial monitor should print received `throttle/steering` values. The current boat receiver test does not drive any motor pins. The remote serial monitor should print queued ESP-NOW packets and TX counters.
 
 The remote uses ESP-NOW broadcast by default, so the first test does not require a boat MAC address. For a classroom with multiple boats, replace `boatAddress` in `remote_controller.ino` with the `Boat MAC` printed by the boat controller serial monitor.
 
@@ -83,10 +85,30 @@ Then press Enter. The sketch will recalibrate the center position. After recalib
 throttle=   0 steering=   0
 ```
 
+## Debugging The Boat Receiver
+
+Open the boat-side Serial Monitor at `115200` baud. After reset, the receive-only sketch should print the boat ESP32-C3 MAC address and then either incoming packets or a missing-packet message.
+
+Normal boat receiver output looks like:
+
+```text
+Boat MAC: 84:F7:03:11:22:33
+Boat controller receive-only test is waiting for ESP-NOW packets.
+seq=123 throttle=  45 steering= -20 button=0 age=12 ms
+```
+
+If the remote is off or packets are not arriving, the boat should print:
+
+```text
+No recent packet.
+```
+
+For a good radio test, `seq` should keep increasing while the remote is powered, `age` should stay low, and `throttle`, `steering`, and `button` should match the remote Serial Monitor values.
+
 ## Debug Order
 
 1. Connect only the KY-023 and remote ESP32-C3. Confirm `raw X/Y` changes in Serial Monitor.
 2. Power both ESP32-C3 boards. Confirm the boat serial monitor receives packets.
-3. Keep the boat out of the water and keep propellers clear of hands and the bench. Test left and right motors at low speed.
+3. Confirm the boat serial monitor shows increasing `seq` values while the remote controller is powered.
 4. If forward/backward or left/right is reversed, change `INVERT_THROTTLE` or `INVERT_STEERING` in `remote_controller.ino`.
-5. Keep `MAX_OUTPUT_PERCENT = 70` in `boat_controller.ino` for early tests. Increase it only after the system is stable.
+5. Add motor-driver output code only after the receiver test is stable.
